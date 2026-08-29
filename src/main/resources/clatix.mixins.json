@@ -1,0 +1,15 @@
+{
+    "required": true,
+    "minVersion": "0.8",
+    "package": "com.clatix.mixins",
+    "compatibilityLevel": "JAVA_21",
+    "refmap": "clatix.refmap.json",
+    "mixins": [
+        "MixinMinecraftClient",
+        "MixinClientPlayerEntity",
+        "MixinClientPlayNetworkHandler",
+        "MixinWorldRenderer"
+    ],
+    "client": [],
+    "server": []
+}

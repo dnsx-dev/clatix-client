@@ -1,0 +1,25 @@
+{
+    "schemaVersion": 1,
+    "id": "clatix",
+    "version": "${version}",
+    "name": "Clatix Client",
+    "description": "Advanced utility mod for Minecraft",
+    "authors": ["Clatix Development Team"],
+    "contact": {},
+    "license": "All rights reserved",
+    "icon": "assets/clatix/icon.png",
+    "environment": "client",
+    "entrypoints": {
+        "client": [
+            "com.clatix.ClatixClientMod"
+        ]
+    },
+    "mixins": [
+        "clatix.mixins.json"
+    ],
+    "depends": {
+        "fabricloader": ">=${loader_version}",
+        "fabric-api": "*",
+        "minecraft": "${minecraft_version}"
+    }
+}
