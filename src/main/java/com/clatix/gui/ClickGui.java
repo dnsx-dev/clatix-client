@@ -13,11 +13,11 @@ public class ClickGui extends Screen {
     private List<Panel> panels = new ArrayList<>();
 
     public ClickGui() {
-        super(Text.literal("Clatix Click GUI"));
+        super(Text.literal("clatix"));
         int x = 10;
         for (Module.Category category : Module.Category.values()) {
-            panels.add(new Panel(category, x, 20, 120, 250));
-            x += 130;
+            panels.add(new Panel(category, x, 30, 140, 280));
+            x += 150;
         }
     }
 
@@ -46,11 +46,6 @@ public class ClickGui extends Screen {
             panel.mouseReleased(mouseX, mouseY, button);
         }
         return super.mouseReleased(mouseX, mouseY, button);
-    }
-
-    @Override
-    public void close() {
-        super.close();
     }
 
     @Override
