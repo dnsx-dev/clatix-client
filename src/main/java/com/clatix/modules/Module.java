@@ -5,19 +5,17 @@ import net.minecraft.client.MinecraftClient;
 
 public abstract class Module {
     protected final MinecraftClient mc = MinecraftClient.getInstance();
-    private String name;
-    private String description;
-    private Category category;
-    private int key;
-    private boolean enabled;
+    private final String name;
+    private final String description;
+    private final Category category;
+    private int key = 0;
+    private boolean enabled = false;
     private boolean visible = true;
 
     public Module(String name, String description, Category category) {
         this.name = name;
         this.description = description;
         this.category = category;
-        this.key = 0;
-        this.enabled = false;
     }
 
     public abstract void onEnable();
@@ -36,6 +34,7 @@ public abstract class Module {
         }
     }
 
+    // ---- Getters & Setters ----
     public String getName() { return name; }
     public String getDescription() { return description; }
     public Category getCategory() { return category; }
@@ -53,7 +52,7 @@ public abstract class Module {
         EXPLOIT("Exploit"),
         MISC("Misc");
 
-        private String name;
+        private final String name;
         Category(String name) { this.name = name; }
         public String getName() { return name; }
     }
