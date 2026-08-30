@@ -11,13 +11,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Panel {
-    private MinecraftClient mc = MinecraftClient.getInstance();
-    private Module.Category category;
+    private final MinecraftClient mc = MinecraftClient.getInstance();
+    private final Module.Category category;
     private int x, y, width, height;
     private boolean dragging = false;
     private double dragX, dragY;
     private boolean expanded = true;
-    private List<ModuleButton> buttons = new ArrayList<>();
+    private final List<ModuleButton> buttons = new ArrayList<>();
 
     public Panel(Module.Category category, int x, int y, int width, int height) {
         this.category = category;
@@ -25,7 +25,7 @@ public class Panel {
         this.y = y;
         this.width = width;
         this.height = height;
-        
+
         int buttonY = y + 22;
         for (Module module : ModuleManager.getInstance().getModules()) {
             if (module.getCategory() == category) {
@@ -43,19 +43,22 @@ public class Panel {
             y = Math.max(0, Math.min(y, context.getScaledWindowHeight() - height));
         }
 
-        RenderUtils.drawRect(context, x, y, x + width, y + 20, new Color(30, 30, 30, 255).getRGB());
-        RenderUtils.drawRect(context, x, y + 20, x + width, y + height, new Color(20, 20, 20, 240).getRGB());
-        RenderUtils.drawBorder(context, x, y, x + width, y + height, 1, new Color(50, 50, 50, 255).getRGB());
+        // Background and border (sharp corners)
+        RenderUtils.drawRect(context, x, y, x + width, y + 20, new Color(13, 13, 13, 240).getRGB());
+        RenderUtils.drawRect(context, x, y + 20, x + width, y + height, new Color(13, 13, 13, 230).getRGB());
+        RenderUtils.drawBorder(context, x, y, x + width, y + height, 1, new Color(30, 30, 30).getRGB());
 
-        context.drawText(mc.textRenderer, category.getName(), x + 6, y + 6, 0xFFFFFF, false);
+        // Category name
+        context.drawText(mc.textRenderer, category.getName(), x + 6, y + 5, 0x00D4FF, false);
+
+        // Expand/collapse arrow
+        context.drawText(mc.textRenderer, expanded ? "▼" : "▶", x + width - 16, y + 4, 0x7B2FBE, false);
 
         if (expanded) {
-            for (ModuleButton button : buttons) {
-                button.render(context, mouseX, mouseY, delta);
+            for (ModuleButton btn : buttons) {
+                btn.render(context, mouseX, mouseY, delta);
             }
         }
-
-        context.drawText(mc.textRenderer, expanded ? "▼" : "▶", x + width - 16, y + 5, 0xFFFFFF, false);
     }
 
     public void mouseClicked(double mouseX, double mouseY, int button) {
@@ -74,6 +77,7 @@ public class Panel {
             for (ModuleButton btn : buttons) {
                 if (btn.isMouseOver(mouseX, mouseY)) {
                     btn.mouseClicked(mouseX, mouseY, button);
+                    return;
                 }
             }
         }
@@ -81,10 +85,8 @@ public class Panel {
 
     public void mouseReleased(double mouseX, double mouseY, int button) {
         dragging = false;
-        if (expanded) {
-            for (ModuleButton btn : buttons) {
-                btn.mouseReleased(mouseX, mouseY, button);
-            }
+        for (ModuleButton btn : buttons) {
+            btn.mouseReleased(mouseX, mouseY, button);
         }
     }
 
