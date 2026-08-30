@@ -5,7 +5,7 @@ import com.clatix.modules.modules.movement.*;
 import com.clatix.modules.modules.render.*;
 import com.clatix.modules.modules.player.*;
 import com.clatix.modules.modules.exploit.*;
-import com.clatix.modules.modules.misc.*;  // new modules
+import com.clatix.modules.modules.misc.*;   // <-- IMPORT FOR MISC
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,7 +61,7 @@ public class ModuleManager {
         modules.add(new ChunkBan());
         modules.add(new Coordinates());
 
-        // ===== MISC (new modules) =====
+        // ===== MISC =====
         modules.add(new OreSim());
         modules.add(new HoverTotem());
         modules.add(new AutoInvTotem());
