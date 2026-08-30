@@ -1,8 +1,7 @@
 package com.clatix;
 
-import com.clatix.client.Client;
-import com.clatix.modules.ModuleManager;
-import com.clatix.event.EventManager;
+import com.clatix.gui.ClickGui;
+import com.clatix.gui.HudRenderer;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
@@ -17,22 +16,13 @@ public class ClatixClientMod implements ClientModInitializer {
     public static final String MOD_ID = "clatix";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
     public static ClatixClientMod INSTANCE;
-    private Client client;
-    private ModuleManager moduleManager;
-    private EventManager eventManager;
+
     private KeyBinding clickGuiKey;
 
     @Override
     public void onInitializeClient() {
         INSTANCE = this;
-        LOGGER.info("Initializing Clatix Client for Fabric 1.21.1");
-
-        this.client = new Client();
-        this.moduleManager = new ModuleManager();
-        this.eventManager = new EventManager();
-
-        moduleManager.init();
-        eventManager.init();
+        LOGGER.info("clatix loaded.");
 
         clickGuiKey = new KeyBinding(
             "key.clatix.clickgui",
@@ -44,20 +34,14 @@ public class ClatixClientMod implements ClientModInitializer {
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             if (clickGuiKey.wasPressed()) {
-                client.setScreen(new com.clatix.gui.ClickGui());
+                if (client.currentScreen instanceof ClickGui) {
+                    client.setScreen(null);
+                } else {
+                    client.setScreen(new ClickGui());
+                }
             }
-            eventManager.onTick();
         });
 
-        HudRenderCallback.EVENT.register((drawContext, tickDelta) -> {
-            eventManager.onRender(drawContext);
-        });
-
-        LOGGER.info("Clatix Client initialized successfully");
+        HudRenderCallback.EVENT.register(new HudRenderer());
     }
-
-    public Client getClient() { return client; }
-    public ModuleManager getModuleManager() { return moduleManager; }
-    public EventManager getEventManager() { return eventManager; }
-    public KeyBinding getClickGuiKey() { return clickGuiKey; }
 }
